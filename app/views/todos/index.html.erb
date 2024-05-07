@@ -1,0 +1,39 @@
+<div class="w-full" data-controller="todo-filter">
+  <% if notice.present? %>
+    <p class="py-2 px-3 bg-green-50 mb-5 text-green-500 font-medium rounded-lg inline-block" id="notice"><%= notice %></p>
+  <% end %>
+
+  <div class="flex justify-between items-center">
+    <h1 class="font-bold text-4xl">To-Do List</h1>
+    <div class="flex space-x-4">
+      <%= select_tag "status_filter", options_for_select(@collected_statuses), 
+      prompt: 'Select a status filter', data: { action: 'todo-filter#filter', todo_filter_target: 'filter', turbo_frame: 'todo_list' } %>
+      <%= link_to "New todo", new_todo_path, class: "rounded-lg py-3 px-5 bg-blue-600 text-white block font-medium" %>
+    </div>
+  </div>
+  
+  
+    <div id="todos" class="min-w-full">
+      <% if @todos.empty? %>
+        <p>Add something cool here!</p>
+      <% else %>
+        <%= turbo_frame_tag "todo_list" do %>
+        <table class="w-full mt-5">
+          <thead class="mt-5 mb-5">
+            <th>Title</th>
+            <th>Description</th>
+            <th>Due date</th>
+            <th>Status</th>
+            <th>Delete To-Do?</th>
+          </thead>
+          <tbody id="filtered_todos">
+            <% @todos.each do |todo| %>
+              <%= render todo %>
+            <% end %>
+          </tbody>
+        </table>
+      <% end %>
+    </div>
+  <% end %>
+</div>
+

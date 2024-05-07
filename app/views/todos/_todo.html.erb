@@ -1,0 +1,13 @@
+<% if todo.completed? %>
+  <tr id="<%= dom_id todo %>" class="bg-green-500">
+<% elsif todo.due_date < Date.today %>
+  <tr id="<%= dom_id todo %>" class="bg-red-500">
+<% else %>
+  <tr id="<%= dom_id todo %>">
+<% end %>
+  <td class="text-blue"><%= link_to todo.title, edit_todo_path(todo), class: 'hover:underline', data: { turbo: false }  %></td>
+  <td><%= todo.description %></td>
+  <td><%= todo.due_date %></td>
+  <td><%= todo.current_status.humanize %></td>
+  <td><%= link_to '&#10060;'.html_safe, todo, data: { turbo_method: :delete, turbo_confirm: "Are you sure you want to delete Todo: #{todo.title}?" } %></td>
+</tr>
